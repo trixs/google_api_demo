@@ -78,24 +78,15 @@
       <div class="container">
         <pre><code class="html">
   &#x3C;meta name=&#x22;google-signin-scope&#x22; content=&#x22;https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/drive.metadata&#x22;&#x3E;
+  &#x3C;script src=&#x22;https://apis.google.com/js/client:plusone.js&#x22; type=&#x22;text/javascript&#x22;&#x3E;&#x3C;/script&#x3E;
             </code></pre>
         <pre><code class="javascript">
   function listFiles() {
-    let request = gapi.client.request({
-      'path': '/drive/v2/files',
-      'method': 'GET',
-      'params': {
-        'maxResults': '10'
-      }
-    });
-    request.then(function (response) {
-      let files = response.result.items;
-      if (files &amp;&amp; files.length > 0) {
-        for (let file of files) {
-          console.log(`File title: '${file.title}', id: '${file.id}'`);
-        }
-      } else {
-        console.log('No files found');
+    gapi.client.request({
+      'path': '/drive/v2/files',  'method': 'GET', 'params': {'maxResults': '10'}
+    }).then(function (response) {
+      for (let file of response.result.items) {
+        console.log(`File title: '${file.title}', id: '${file.id}'`);
       }
     });
   }
